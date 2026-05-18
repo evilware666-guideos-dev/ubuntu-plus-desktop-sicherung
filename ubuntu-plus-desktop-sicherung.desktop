@@ -1,0 +1,11 @@
+﻿[Desktop Entry]
+Name=Ubuntu-PLUS Desktop‑Sicherung
+Comment=GNOME‑Desktop sichern, wiederherstellen und Vorlagen verwalten
+Exec=/bin/ubuntu-plus-desktop-sicherung.py
+Icon=ubuntu-plus-desktop-sicherung.png
+Terminal=false
+Type=Application
+Categories=Utility;Settings;System;
+StartupNotify=true
+Keywords=Backup;GNOME;Desktop;Restore;Vorlagen;Sicherung;
+
