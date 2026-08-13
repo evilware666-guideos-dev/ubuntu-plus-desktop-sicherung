@@ -38,7 +38,7 @@ Perfekt nach Neuinstallationen oder Systemwechseln.
 
 ---
 
-## **🎨 NEU in Version 2.1 – Vorlagen‑System**
+## **🎨 NEU in Version 1.2 – Vorlagen‑System**
 Mit Version 1.1 wurde ein vollständiges **Preset‑System** integriert:
 
 ### **Vorlagen speichern**
