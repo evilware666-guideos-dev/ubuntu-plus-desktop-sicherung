@@ -17,7 +17,7 @@
 #   - Vorlagen exportieren als .tar.gz
 #
 # Autor: evilware666 & Helga
-# Version: 2.1
+# Version: 2.2
 # Datum: 2025-10-14
 # ==============================================================================
 
@@ -203,11 +203,16 @@ def _collect_into_tmpdir(tmpdir, cancel_flag=None):
 
 
 def _build_tar(speicherort, tmpdir):
-    """TAR-Archiv aus Home-Verzeichnis-Unterordnern + tmpdir-Inhalten bauen."""
+    """TAR-Archiv aus Home-Verzeichnis-Unterordnern + tmpdir-Inhalten bauen.
+    Lesezeichen (bookmarks) von Nautilus werden ausgeschlossen."""
     home = os.path.expanduser("~")
     os.chdir(home)
 
     tar_args = ['tar', '-czf', speicherort]
+    # Lesezeichen aus GTK3/GTK4 nicht ins Backup aufnehmen
+    tar_args.append('--exclude=.config/gtk-3.0/bookmarks')
+    tar_args.append('--exclude=.config/gtk-4.0/bookmarks')
+
     for d in INCLUDE_DIRS:
         if os.path.exists(d):
             tar_args.append(d)
@@ -226,16 +231,19 @@ def _restore_from_tmpdir(tmpdir, cancel_flag=None):
     """
     Entpackten tmpdir auf das Home-Verzeichnis anwenden.
     Gibt (restored_ext_count, reactivated_count) zurück.
+    Lesezeichen werden nicht überschrieben (ausgeschlossen).
     """
     home = os.path.expanduser("~")
 
-    # Verzeichnisse per rsync zurückschreiben
+    # Verzeichnisse per rsync zurückschreiben – Lesezeichen ausschließen
     for d in INCLUDE_DIRS:
         src = os.path.join(tmpdir, d)
         dst = os.path.join(home, d)
         if os.path.exists(src):
             os.makedirs(os.path.dirname(dst), exist_ok=True)
-            subprocess.run(['rsync', '-a', f"{src}/", f"{dst}/"], stderr=subprocess.DEVNULL)
+            subprocess.run(
+                ['rsync', '-a', '--exclude=bookmarks', f"{src}/", f"{dst}/"],
+                stderr=subprocess.DEVNULL)
 
     if cancel_flag and cancel_flag.is_set():
         return 0, 0
@@ -437,7 +445,7 @@ def import_preset_from_tar(tar_path, name, cancel_flag=None):
 class GnomeBackupRestore(Gtk.Application):
     def __init__(self):
         super().__init__(
-            application_id='com.guideos.gnome-backup',
+            application_id='com.ubuntu-plus.gnome-backup',
             flags=Gio.ApplicationFlags.FLAGS_NONE
         )
 
