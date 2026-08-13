@@ -17,7 +17,7 @@
 #   - Vorlagen exportieren als .tar.gz
 #
 # Autor: evilware666 & Helga
-# Version: 2.1
+# Version: 1.2
 # Datum: 2025-10-14
 # ==============================================================================
 
