@@ -1,7 +1,7 @@
 
 ## Ubuntu-PLUS Desktop-Sicherung 
 
-Version: 1.1*
+Version: 1.2*
 
 Entwickler: evilware666 & Helga
 
